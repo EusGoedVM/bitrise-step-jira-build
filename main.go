@@ -79,10 +79,10 @@ func main() {
 		os.Exit(3)
 	}
 
-	issueKey := gitWorker.ScanIssues()
+	issueKeys := gitWorker.ScanIssues()
 
 	// update custom field on issues with current build number
-	logger.Infof("Updating build status for issues: %v\n", issueKey)
+	logger.Infof("Updating build status for issues: %v\n", issueKeys)
 	jiraWorker, err := service.NewJIRAWorker(
 		stepConfig.JiraHost, stepConfig.JiraUsername,
 		stepConfig.JiraTokenString(), stepConfig.JiraFieldID,
@@ -92,7 +92,7 @@ func main() {
 		os.Exit(4)
 	}
 
-	jiraWorker.UpdateBuildForIssues(issueKey, build)
+	jiraWorker.UpdateBuildForIssues(issueKeys, build)
 
 	// exit with success code
 	os.Exit(0)

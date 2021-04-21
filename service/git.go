@@ -92,15 +92,15 @@ func (worker *GitWorker) LoadCommits() []*git.Commit {
 	return commits
 }
 
-func (worker *GitWorker) ScanIssues() string {
+func (worker *GitWorker) ScanIssues() []string {
 	// commits := worker.LoadCommits()
-	// issueKeysMap := make(map[string]bool)
+	issueKeysMap := make(map[string]bool)
 	regex, err := regexp.Compile(worker.IssuePattern)
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	var issue = regex.FindString(worker.Branch)
+	issue = regex.FindAllString(worker.Branch, -1)
 
 	// for _, commit := range commits {
 	// 	keys := regex.FindAllString(commit.Message(), -1)
