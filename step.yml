@@ -71,11 +71,11 @@ inputs:
         You can read how to find it [here](https://confluence.atlassian.com/jirakb/how-to-find-id-for-custom-field-s-744522503.html).
         And if you don’t have a custom field yet, check out this [guide](https://confluence.atlassian.com/adminjiraserver/adding-a-custom-field-938847222.html) that explains how to create it.
       is_required: true
-    - jira_url_custom_field_id:
-      opts:
-        title: "JIRA Custom Field ID"
-        summary: "Custom field id for the build URL (URL)"
-        is_required: false
+  - jira_url_custom_field_id:
+    opts:
+      title: "JIRA Custom Field ID"
+      summary: "Custom field id for the build URL (URL)"
+      is_required: false
   - jira_username:
     opts:
       title: "JIRA username"
