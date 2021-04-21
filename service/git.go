@@ -94,7 +94,7 @@ func (worker *GitWorker) LoadCommits() []*git.Commit {
 
 func (worker *GitWorker) ScanIssues() []string {
 	// commits := worker.LoadCommits()
-	issueKeysMap := make(map[string]bool)
+	// issueKeysMap := make(map[string]bool)
 	regex, err := regexp.Compile(worker.IssuePattern)
 	if err != nil {
 		log.Fatal(err)
