@@ -40,6 +40,7 @@ func (worker *JIRAWorker) UpdateBuildForIssues(issueKeys []string, build config.
 		buildString := build.String()
 		customFieldKey := fmt.Sprintf("customfield_%v", worker.CustomFieldID)
 
+		logger.Infof("Buildstring: %v", buildString)
 		fields := map[string]string{
 			customFieldKey: buildString,
 		}
