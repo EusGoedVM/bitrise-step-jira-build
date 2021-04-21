@@ -83,7 +83,7 @@ func main() {
 	// issueKeys := gitWorker.ScanIssues()
 	regex, err := regexp.Compile(stepConfig.JiraIssuePattern)
 	if err != nil {
-		logger.Fatal(err)
+		logger.Infof("Error in regex stuff: %v", err)
 	}
 
 	var issue = regex.FindAllString(stepConfig.Branch, -1)
