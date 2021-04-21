@@ -92,25 +92,27 @@ func (worker *GitWorker) LoadCommits() []*git.Commit {
 	return commits
 }
 
-func (worker *GitWorker) ScanIssues() []string {
-	commits := worker.LoadCommits()
+func (worker *GitWorker) ScanIssues() string {
+	// commits := worker.LoadCommits()
 	issueKeysMap := make(map[string]bool)
 	regex, err := regexp.Compile(worker.IssuePattern)
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	for _, commit := range commits {
-		keys := regex.FindAllString(commit.Message(), -1)
-		for _, key := range keys {
-			issueKeysMap[key] = true
-		}
-	}
+	issue = regex.FindAllString(worker.Branch, -1)
 
-	issueKeys := make([]string, 0, len(issueKeysMap))
-	for k := range issueKeysMap {
-		issueKeys = append(issueKeys, k)
-	}
+	// for _, commit := range commits {
+	// 	keys := regex.FindAllString(commit.Message(), -1)
+	// 	for _, key := range keys {
+	// 		issueKeysMap[key] = true
+	// 	}
+	// }
 
-	return issueKeys
+	// issueKeys := make([]string, 0, len(issueKeysMap))
+	// for k := range issueKeysMap {
+	// 	issueKeys = append(issueKeys, k)
+	// }
+
+	return issue
 }
