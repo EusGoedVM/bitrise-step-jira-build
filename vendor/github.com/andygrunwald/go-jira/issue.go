@@ -846,7 +846,7 @@ func (s *IssueService) Update(issue *Issue) (*Issue, *Response, error) {
 // https://docs.atlassian.com/jira/REST/7.4.0/#api/2/issue-editIssue
 func (s *IssueService) UpdateIssueWithContext(ctx context.Context, jiraID string, data map[string]interface{}) (*Response, error) {
 	apiEndpoint := fmt.Sprintf("rest/api/2/issue/%v", jiraID)
-	logger.Infof("endpoint: %v", apiEndPoint)
+	logger.Infof("endpoint: %v", apiEndpoint)
 	logger.Infof("data: %v", data)
 	req, err := s.client.NewRequestWithContext(ctx, "PUT", apiEndpoint, data)
 	logger.Infof("request: %v", req)
