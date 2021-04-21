@@ -10,12 +10,13 @@ import (
 )
 
 type JIRAWorker struct {
-	Auth          jira.BasicAuthTransport
-	Client        *jira.Client
-	CustomFieldID int
+	Auth         			jira.BasicAuthTransport
+	Client       			*jira.Client
+	CustomFieldID 		int
+	CustomURLFieldID  int
 }
 
-func NewJIRAWorker(baseURL string, username string, password string, customFieldID int) (*JIRAWorker, error) {
+func NewJIRAWorker(baseURL string, username string, password string, customFieldID int, customURLFieldID int) (*JIRAWorker, error) {
 	auth := jira.BasicAuthTransport{
 		Username: username,
 		Password: password,
@@ -30,18 +31,21 @@ func NewJIRAWorker(baseURL string, username string, password string, customField
 		Auth:          auth,
 		Client:        client,
 		CustomFieldID: customFieldID,
+		CustomURLFieldID: customURLFieldID
 	}
 
 	return &worker, nil
 }
 
-func (worker *JIRAWorker) UpdateBuildForIssues(issueKeys []string, build config.Build) {
+func (worker *JIRAWorker) UpdateBuildForIssues(issueKeys []string, build config.Build, url string) {
 	for _, key := range issueKeys {
 		buildString := build.String()
 		customFieldKey := fmt.Sprintf("customfield_%v", worker.CustomFieldID)
+		customURLFieldKey := fmt.Sprintf("customfield_%v", worker.CustomURLFieldID)
 
 		fields := map[string]string{
 			customFieldKey: buildString,
+			customURLFieldKey: url
 		}
 		body := map[string]interface{}{
 			"fields": fields,

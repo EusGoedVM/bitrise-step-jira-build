@@ -8,10 +8,12 @@ app:
   - JIRA_USERNAME: ${JIRA_USERNAME}
   - JIRA_ACCESS_TOKEN: ${JIRA_ACCESS_TOKEN}
   - JIRA_CUSTOM_FIELD_ID: ${JIRA_CUSTOM_FIELD_ID}
+  - JIRA_URL_CUSTOM_FIELD_ID: ${JIRA_URL_CUSTOM_FIELD_ID}
   - BITRISE_API_TOKEN: ${BITRISE_API_TOKEN}
   - BITRISE_BUILD_SLUG: ${BITRISE_BUILD_SLUG}
   - BITRISE_APP_SLUG: ${BITRISE_APP_SLUG}
   - BITRISE_TRIGGERED_WORKFLOW_TITLE: ${BITRISE_TRIGGERED_WORKFLOW_TITLE}
+  - BITRISE_PUBLIC_INSTALL_PAGE_URL: ${BITRISE_PUBLIC_INSTALL_PAGE_URL}
   # bitrise-io
   - BITRISE_BUILD_NUMBER: "1111"
   - BITRISE_GIT_BRANCH: master
@@ -43,11 +45,12 @@ workflows:
     - path::./:
         title: Basic test using provided parameters with sample bitrise and jira projects.
         run_if: true
-        inputs: 
+        inputs:
         - jira_host: ${JIRA_HOST}
         - jira_username: ${JIRA_USERNAME}
         - jira_access_token: ${JIRA_ACCESS_TOKEN}
         - jira_custom_field_id: ${JIRA_CUSTOM_FIELD_ID}
+        - jira_url_custom_field_id: ${JIRA_URL_CUSTOM_FIELD_ID}
         - jira_issue_pattern: "([A-Z]{1,10}-[0-9]+)"
         - bitrise_api_token: ${BITRISE_API_TOKEN}
         - app_version: "2.2.0"

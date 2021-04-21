@@ -21,6 +21,7 @@ type StepConfig struct {
 	JiraUsername     string          `env:"jira_username,required"`
 	JiraToken        stepconf.Secret `env:"jira_access_token,required"`
 	JiraFieldID      int             `env:"jira_custom_field_id,required"`
+	JiraURLFieldID	 int     				 `env:"jira_url_custom_field_id"`
 	JiraIssuePattern string          `env:"jira_issue_pattern,required"`
 
 	// Bitrise API
@@ -33,6 +34,7 @@ type StepConfig struct {
 	Branch      string `env:"BITRISE_GIT_BRANCH,required"`
 	BuildSlug   string `env:"BITRISE_BUILD_SLUG,required"`
 	AppSlug     string `env:"BITRISE_APP_SLUG,required"`
+	InstallURL  string `env:"BITRISE_PUBLIC_INSTALL_PAGE_URL"`
 }
 
 func (config *StepConfig) JiraTokenString() string {
@@ -64,7 +66,7 @@ func main() {
 		stepConfig.BuildSlug, stepConfig.Workflow,
 		stepConfig.Branch,
 	)
-	
+
 	if err != nil {
 		logger.Errorf("Bitrise error: %s\n", err)
 		os.Exit(2)
@@ -88,7 +90,7 @@ func main() {
 		os.Exit(4)
 	}
 
-	jiraWorker.UpdateBuildForIssues(issue, build)
+	jiraWorker.UpdateBuildForIssues(issue, build, stepConfig.InstallURL)
 	logger.Infof("Updated ticket %s with build number %s", issue[0], stepConfig.BuildNumber)
 	// exit with success code
 	os.Exit(0)

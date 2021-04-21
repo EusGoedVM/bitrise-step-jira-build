@@ -15,12 +15,12 @@ description: |-
   Update fields of JIRA issues associated with current MR/PR, with the current build number.
 
   ### How does it work?
-  
-  First, the step needs to know tasks associated with the build, so it examines Git history of the merge that it was triggered by. 
-  Each merge request can have multiple tasks related to it. So step extracts all the messages of commits involved from the merge commit, 
-  and it looks for task keys using a predefined format (for example, [ABCD-1234]). Then using JIRA API, it updates custom fields of these tasks with current build number. 
 
-  Additionally step can keep ticket history from failed/aborted builds. It uses Bitrise API to gather information about the commits 
+  First, the step needs to know tasks associated with the build, so it examines Git history of the merge that it was triggered by.
+  Each merge request can have multiple tasks related to it. So step extracts all the messages of commits involved from the merge commit,
+  and it looks for task keys using a predefined format (for example, [ABCD-1234]). Then using JIRA API, it updates custom fields of these tasks with current build number.
+
+  Additionally step can keep ticket history from failed/aborted builds. It uses Bitrise API to gather information about the commits
   from all aborted or failed builds preceding the current one.
 
   ### Useful links
@@ -55,7 +55,7 @@ inputs:
       title: "App version"
       summary: "App version (for example 1.0.0)"
       description: |-
-        If you develop an iOS project, you can extract the version number from Info.plist of the main target. It’s called `CFBundleShortVersionString`. 
+        If you develop an iOS project, you can extract the version number from Info.plist of the main target. It’s called `CFBundleShortVersionString`.
         Alternatively, you may use a custom step that can do it for you: [bitrise-step-xcode-build-version](https://github.com/nodes-ios/bitrise-step-xcode-build-version)
       is_required: true
   - jira_host:
@@ -68,15 +68,20 @@ inputs:
       title: "JIRA Custom Field ID"
       summary: "Custom field id for the build number (integer)"
       description: |-
-        You can read how to find it [here](https://confluence.atlassian.com/jirakb/how-to-find-id-for-custom-field-s-744522503.html). 
+        You can read how to find it [here](https://confluence.atlassian.com/jirakb/how-to-find-id-for-custom-field-s-744522503.html).
         And if you don’t have a custom field yet, check out this [guide](https://confluence.atlassian.com/adminjiraserver/adding-a-custom-field-938847222.html) that explains how to create it.
       is_required: true
+    - jira_url_custom_field_id:
+      opts:
+        title: "JIRA Custom Field ID"
+        summary: "Custom field id for the build URL (URL)"
+        is_required: false
   - jira_username:
     opts:
       title: "JIRA username"
       summary: "User (or bot) username"
       is_required: true
-  - jira_access_token: 
+  - jira_access_token:
     opts:
       title: "JIRA access token"
       summary: "User (or bot) password or API token (you can generate it [here](https://confluence.atlassian.com/cloud/api-tokens-938839638.html))."
@@ -88,7 +93,7 @@ inputs:
       summary: "A regular expression for matching issue keys in commit messages. For example, ([A-Z]{1,10}-[0-9]+)"
       is_required: true
   - bitrise_api_token:
-    opts: 
+    opts:
       title: "Token for bitrise.io API"
       summary: "Access token for bitrise.io API, you can find your API token [here](https://discuss.bitrise.io/t/personal-access-tokens-beta/1383)"
       is_required: true
