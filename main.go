@@ -84,6 +84,7 @@ func main() {
 	jiraWorker, err := service.NewJIRAWorker(
 		stepConfig.JiraHost, stepConfig.JiraUsername,
 		stepConfig.JiraTokenString(), stepConfig.JiraFieldID,
+		stepConfig.JiraURLFieldID,
 	)
 	if err != nil {
 		logger.Errorf("JIRA error: %s\n", err)
