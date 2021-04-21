@@ -69,15 +69,15 @@ func main() {
 	}
 
 	// scan repo for related issue keys
-	logger.Infof("Scanning git repo for JIRA issues (%d anchor[s])\n", len(hashes))
-	gitWorker, err := service.GitOpen(
-		stepConfig.SourceDir, stepConfig.Branch,
-		stepConfig.JiraIssuePattern, hashes,
-	)
-	if err != nil {
-		logger.Errorf("Git error: %s\n", err)
-		os.Exit(3)
-	}
+	// logger.Infof("Scanning git repo for JIRA issues (%d anchor[s])\n", len(hashes))
+	// gitWorker, err := service.GitOpen(
+	// 	stepConfig.SourceDir, stepConfig.Branch,
+	// 	stepConfig.JiraIssuePattern, hashes,
+	// )
+	// if err != nil {
+	// 	logger.Errorf("Git error: %s\n", err)
+	// 	os.Exit(3)
+	// }
 
 	issueKeys := gitWorker.ScanIssues()
 
