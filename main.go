@@ -59,29 +59,17 @@ func main() {
 	// get commit hashes from bitrise
 	logger.Infof("Scanning Bitrise API for previous failed/aborted builds\n")
 	bitriseClient := bitrise.Client{Token: stepConfig.BitriseTokenString()}
-	hashes, err := service.ScanRelatedCommits(
+	_, err := service.ScanRelatedCommits(
 		&bitriseClient, stepConfig.AppSlug,
 		stepConfig.BuildSlug, stepConfig.Workflow,
 		stepConfig.Branch,
 	)
+	
 	if err != nil {
 		logger.Errorf("Bitrise error: %s\n", err)
 		os.Exit(2)
 	}
 
-	// scan repo for related issue keys
-	// logger.Infof("Scanning git repo for JIRA issues (%d anchor[s])\n", len(hashes))
-	// gitWorker, err := service.GitOpen(
-	// 	stepConfig.SourceDir, stepConfig.Branch,
-	// 	stepConfig.JiraIssuePattern, hashes,
-	// )
-	// if err != nil {
-	// 	logger.Errorf("Git error: %s\n", err)
-	// 	os.Exit(3)
-	// }
-	//
-	// issueKeys := gitWorker.ScanIssues()
-	logger.Infof("%v", hashes)
 	regex, err := regexp.Compile(stepConfig.JiraIssuePattern)
 	if err != nil {
 		logger.Errorf("Error in regex stuff: %v", err)
@@ -101,7 +89,7 @@ func main() {
 	}
 
 	jiraWorker.UpdateBuildForIssues(issue, build)
-
+	logger.Infof("Updated ticket %s with build number %s", issue[0], stepConfig.BuildNumber)
 	// exit with success code
 	os.Exit(0)
 }

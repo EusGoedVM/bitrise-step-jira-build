@@ -14,7 +14,7 @@ import (
 	"strconv"
 	"strings"
 	"time"
-	logger "github.com/bitrise-io/go-utils/log"
+
 	"github.com/fatih/structs"
 	"github.com/google/go-querystring/query"
 	"github.com/trivago/tgo/tcontainer"
@@ -846,14 +846,10 @@ func (s *IssueService) Update(issue *Issue) (*Issue, *Response, error) {
 // https://docs.atlassian.com/jira/REST/7.4.0/#api/2/issue-editIssue
 func (s *IssueService) UpdateIssueWithContext(ctx context.Context, jiraID string, data map[string]interface{}) (*Response, error) {
 	apiEndpoint := fmt.Sprintf("rest/api/2/issue/%v", jiraID)
-	logger.Infof("endpoint: %v", apiEndpoint)
-	logger.Infof("data: %v", data)
 	req, err := s.client.NewRequestWithContext(ctx, "PUT", apiEndpoint, data)
-	logger.Infof("request: %v", req)
 	if err != nil {
 		return nil, err
 	}
-	logger.Infof("first request done")
 	resp, err := s.client.Do(req, nil)
 	if err != nil {
 		return resp, err
@@ -866,7 +862,6 @@ func (s *IssueService) UpdateIssueWithContext(ctx context.Context, jiraID string
 
 // UpdateIssue wraps UpdateIssueWithContext using the background context.
 func (s *IssueService) UpdateIssue(jiraID string, data map[string]interface{}) (*Response, error) {
-
 	return s.UpdateIssueWithContext(context.Background(), jiraID, data)
 }
 
