@@ -50,7 +50,7 @@ func (worker *JIRAWorker) UpdateBuildForIssues(issueKeys []string, build config.
 
 		_, err := worker.Client.Issue.UpdateIssue(key, body)
 		if err != nil {
-			logger.Warnf("Error for '%s': %v\n", key, err)
+			logger.Warnf("Error for '%s': %v\n body: %s", key, err, body)
 			// TODO Response body
 		}
 	}
