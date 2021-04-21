@@ -31,7 +31,7 @@ func NewJIRAWorker(baseURL string, username string, password string, customField
 		Auth:          auth,
 		Client:        client,
 		CustomFieldID: customFieldID,
-		CustomURLFieldID: customURLFieldID
+		CustomURLFieldID: customURLFieldID,
 	}
 
 	return &worker, nil
@@ -45,7 +45,7 @@ func (worker *JIRAWorker) UpdateBuildForIssues(issueKeys []string, build config.
 
 		fields := map[string]string{
 			customFieldKey: buildString,
-			customURLFieldKey: url
+			customURLFieldKey: url,
 		}
 		body := map[string]interface{}{
 			"fields": fields,
