@@ -7,6 +7,7 @@ import (
 	"github.com/Holdapp/bitrise-step-jira-build/config"
 	"github.com/Holdapp/bitrise-step-jira-build/service"
 	logger "github.com/bitrise-io/go-utils/log"
+	"regexp"
 
 	"github.com/bitrise-io/go-steputils/stepconf"
 )
@@ -78,11 +79,17 @@ func main() {
 	// 	logger.Errorf("Git error: %s\n", err)
 	// 	os.Exit(3)
 	// }
+	//
+	// issueKeys := gitWorker.ScanIssues()
+	regex, err := regexp.Compile(stepConfig.JiraIssuePattern)
+	if err != nil {
+		log.Fatal(err)
+	}
 
-	issueKeys := gitWorker.ScanIssues()
+	var issue = regex.FindAllString(worker.Branch, -1)
 
 	// update custom field on issues with current build number
-	logger.Infof("Updating build status for issues: %v\n", issueKeys)
+	logger.Infof("Updating build status for issues: %v\n", issue)
 	jiraWorker, err := service.NewJIRAWorker(
 		stepConfig.JiraHost, stepConfig.JiraUsername,
 		stepConfig.JiraTokenString(), stepConfig.JiraFieldID,
@@ -92,7 +99,7 @@ func main() {
 		os.Exit(4)
 	}
 
-	jiraWorker.UpdateBuildForIssues(issueKeys, build)
+	jiraWorker.UpdateBuildForIssues(issue, build)
 
 	// exit with success code
 	os.Exit(0)
