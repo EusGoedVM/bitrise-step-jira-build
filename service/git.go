@@ -100,7 +100,7 @@ func (worker *GitWorker) ScanIssues() string {
 		log.Fatal(err)
 	}
 
-	var issue = regex.FindAllString(worker.Branch, -1)
+	var issue = regex.FindString(worker.Branch)
 
 	// for _, commit := range commits {
 	// 	keys := regex.FindAllString(commit.Message(), -1)
