@@ -853,7 +853,7 @@ func (s *IssueService) UpdateIssueWithContext(ctx context.Context, jiraID string
 	if err != nil {
 		return nil, err
 	}
-	logger.Info("first request done")
+	logger.Infof("first request done")
 	resp, err := s.client.Do(req, nil)
 	if err != nil {
 		return resp, err
