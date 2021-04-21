@@ -83,10 +83,10 @@ func main() {
 	// issueKeys := gitWorker.ScanIssues()
 	regex, err := regexp.Compile(stepConfig.JiraIssuePattern)
 	if err != nil {
-		log.Fatal(err)
+		logger.Fatal(err)
 	}
 
-	var issue = regex.FindAllString(worker.Branch, -1)
+	var issue = regex.FindAllString(stepConfig.Branch, -1)
 
 	// update custom field on issues with current build number
 	logger.Infof("Updating build status for issues: %v\n", issue)
