@@ -77,6 +77,8 @@ func main() {
 		logger.Errorf("Error in regex stuff: %v", err)
 	}
 
+	logger.Infof("Searching for issue number in branch: %s", stepConfig.Branch)
+	
 	var issue = regex.FindAllString(stepConfig.Branch, -1)
 
 	// update custom field on issues with current build number
@@ -92,6 +94,7 @@ func main() {
 	}
 
 	jiraWorker.UpdateBuildForIssues(issue, build, stepConfig.InstallURL)
+
 	logger.Infof("Updated ticket %s with build number %s", issue[0], stepConfig.BuildNumber)
 	// exit with success code
 	os.Exit(0)
