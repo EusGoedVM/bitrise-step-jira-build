@@ -72,12 +72,22 @@ func main() {
 		os.Exit(2)
 	}
 
-	regex, err := regexp.Compile(stepConfig.JiraIssuePattern)
-	if err != nil {
-		logger.Errorf("Error in regex stuff: %v", err)
-	}
-
-	logger.Infof("Searching for issue number in branch: %s", stepConfig.Branch)
+	// scan repo for related issue keys
+		logger.Infof("Scanning git repo for JIRA issues (%d anchor[s])\n", len(hashes))
+		gitWorker, err := service.GitOpen(
+			stepConfig.SourceDir, stepConfig.Branch,
+			stepConfig.JiraIssuePattern, hashes,
+		)
+		if err != nil {
+			logger.Errorf("Git error: %s\n", err)
+			os.Exit(3)
+		}
+	// regex, err := regexp.Compile(stepConfig.JiraIssuePattern)
+	// if err != nil {
+	// 	logger.Errorf("Error in regex stuff: %v", err)
+	// }
+	//
+	// logger.Infof("Searching for issue number in branch: %s", stepConfig.Branch)
 
 	// var issue = regex.FindAllString(stepConfig.Branch, -1)
 	//
@@ -102,9 +112,9 @@ func main() {
 		os.Exit(4)
 	}
 
-	jiraWorker.UpdateBuildForIssues(issue, build, stepConfig.InstallURL)
+	jiraWorker.UpdateBuildForIssues(issueKeys, build, stepConfig.InstallURL)
 
-	logger.Infof("Updated ticket %s with build number %s", issue[0], stepConfig.BuildNumber)
+	// logger.Infof("Updated ticket %s with build number %s", issueKeys, stepConfig.BuildNumber)
 	// exit with success code
 	os.Exit(0)
 }
