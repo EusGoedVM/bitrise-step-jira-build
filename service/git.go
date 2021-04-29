@@ -3,7 +3,6 @@ package service
 import (
 	"fmt"
 	"log"
-	"strings"
 	"regexp"
 
 	logger "github.com/bitrise-io/go-utils/log"
@@ -109,17 +108,8 @@ func (worker *GitWorker) ScanIssues() []string {
 
 	issueKeys := make([]string, 0, len(issueKeysMap))
 	for k := range issueKeysMap {
-		var correctString = strings.Replace(k, "rai ", "RAI-", -1)
-		logger.Infof("Update string %s to %s", k, correctString)
-		issueKeys = append(issueKeys, correctString)
+		issueKeys = append(issueKeys, k)
 	}
 
 	return issueKeys
 }
-// func (worker *GitWorker) ScanIssues() []string {
-// 	regex, err := regexp.Compile(worker.IssuePattern)
-// 	if err != nil {
-// 		log.Fatal(err)
-// 	}
-// 	return regex.FindAllString(worker.Branch, -1)
-// }

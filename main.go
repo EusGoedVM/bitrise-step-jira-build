@@ -73,7 +73,7 @@ func main() {
 	}
 
 	// scan repo for related issue keys
-		logger.Infof("Scanning git repo for JIRA issues (%d anchor[s]/ %s)\n", len(hashes), hashes[0])
+		logger.Infof("Scanning git repo for JIRA issues (%d anchor[s])\n", len(hashes))
 		gitWorker, err := service.GitOpen(
 			stepConfig.SourceDir, stepConfig.Branch,
 			stepConfig.JiraIssuePattern, hashes,
@@ -82,22 +82,7 @@ func main() {
 			logger.Errorf("Git error: %s\n", err)
 			os.Exit(3)
 		}
-	// regex, err := regexp.Compile(stepConfig.JiraIssuePattern)
-	// if err != nil {
-	// 	logger.Errorf("Error in regex stuff: %v", err)
-	// }
-	//
-	// logger.Infof("Searching for issue number in branch: %s", stepConfig.Branch)
 
-	// var issue = regex.FindAllString(stepConfig.Branch, -1)
-	//
-	// // update custom field on issues with current build number
-	// logger.Infof("Updating build status for issues: %v\n", issue)
-	// jiraWorker, err := service.NewJIRAWorker(
-	// 	stepConfig.JiraHost, stepConfig.JiraUsername,
-	// 	stepConfig.JiraTokenString(), stepConfig.JiraFieldID,
-	// 	stepConfig.JiraURLFieldID,
-	// )
 	issueKeys := gitWorker.ScanIssues()
 
 	// update custom field on issues with current build number
@@ -114,7 +99,6 @@ func main() {
 
 	jiraWorker.UpdateBuildForIssues(issueKeys, build, stepConfig.InstallURL)
 
-	// logger.Infof("Updated ticket %s with build number %s", issueKeys, stepConfig.BuildNumber)
 	// exit with success code
 	os.Exit(0)
 }
