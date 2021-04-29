@@ -7,7 +7,7 @@ import (
 	"github.com/Holdapp/bitrise-step-jira-build/config"
 	"github.com/Holdapp/bitrise-step-jira-build/service"
 	logger "github.com/bitrise-io/go-utils/log"
-	"regexp"
+	// "regexp"
 
 	"github.com/bitrise-io/go-steputils/stepconf"
 )
@@ -61,7 +61,7 @@ func main() {
 	// get commit hashes from bitrise
 	logger.Infof("Scanning Bitrise API for previous failed/aborted builds\n")
 	bitriseClient := bitrise.Client{Token: stepConfig.BitriseTokenString()}
-	_, err := service.ScanRelatedCommits(
+	hashes, err := service.ScanRelatedCommits(
 		&bitriseClient, stepConfig.AppSlug,
 		stepConfig.BuildSlug, stepConfig.Workflow,
 		stepConfig.Branch,
