@@ -109,7 +109,7 @@ func (worker *GitWorker) ScanIssues() []string {
 
 	issueKeys := make([]string, 0, len(issueKeysMap))
 	for k := range issueKeysMap {
-		var correctString = strings.Replace(k, "rai ", "RAI-")
+		var correctString = strings.Replace(k, "rai ", "RAI-", -1)
 		logger.Infof("Update string %s to %s", k, correctString)
 		issueKeys = append(issueKeys, correctString)
 	}

@@ -2,7 +2,6 @@ package service
 
 import (
 	"fmt"
-	"strings"
 	"github.com/Holdapp/bitrise-step-jira-build/config"
 	logger "github.com/bitrise-io/go-utils/log"
 
