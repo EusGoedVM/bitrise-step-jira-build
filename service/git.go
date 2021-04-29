@@ -91,28 +91,34 @@ func (worker *GitWorker) LoadCommits() []*git.Commit {
 
 	return commits
 }
-
 func (worker *GitWorker) ScanIssues() []string {
-	// commits := worker.LoadCommits()
-	// issueKeysMap := make(map[string]bool)
+	commits := worker.LoadCommits()
+	issueKeysMap := make(map[string]bool)
 	regex, err := regexp.Compile(worker.IssuePattern)
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	var issue = regex.FindAllString(worker.Branch, -1)
+	for _, commit := range commits {
+		keys := regex.FindAllString(commit.Message(), -1)
+		for _, key := range keys {
+			issueKeysMap[key] = true
+		}
+	}
 
-	// for _, commit := range commits {
-	// 	keys := regex.FindAllString(commit.Message(), -1)
-	// 	for _, key := range keys {
-	// 		issueKeysMap[key] = true
-	// 	}
-	// }
+	issueKeys := make([]string, 0, len(issueKeysMap))
+	for k := range issueKeysMap {
+		var correctString = strings.Replace(k, "rai ", "RAI-")
+		logger.Infof("Update string %s to %s", k, correctString)
+		issueKeys = append(issueKeys, correctString)
+	}
 
-	// issueKeys := make([]string, 0, len(issueKeysMap))
-	// for k := range issueKeysMap {
-	// 	issueKeys = append(issueKeys, k)
-	// }
-
-	return issue
+	return issueKeys
 }
+// func (worker *GitWorker) ScanIssues() []string {
+// 	regex, err := regexp.Compile(worker.IssuePattern)
+// 	if err != nil {
+// 		log.Fatal(err)
+// 	}
+// 	return regex.FindAllString(worker.Branch, -1)
+// }

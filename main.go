@@ -78,11 +78,20 @@ func main() {
 	}
 
 	logger.Infof("Searching for issue number in branch: %s", stepConfig.Branch)
-	
-	var issue = regex.FindAllString(stepConfig.Branch, -1)
+
+	// var issue = regex.FindAllString(stepConfig.Branch, -1)
+	//
+	// // update custom field on issues with current build number
+	// logger.Infof("Updating build status for issues: %v\n", issue)
+	// jiraWorker, err := service.NewJIRAWorker(
+	// 	stepConfig.JiraHost, stepConfig.JiraUsername,
+	// 	stepConfig.JiraTokenString(), stepConfig.JiraFieldID,
+	// 	stepConfig.JiraURLFieldID,
+	// )
+	issueKeys := gitWorker.ScanIssues()
 
 	// update custom field on issues with current build number
-	logger.Infof("Updating build status for issues: %v\n", issue)
+	logger.Infof("Updating build status for issues: %v\n", issueKeys)
 	jiraWorker, err := service.NewJIRAWorker(
 		stepConfig.JiraHost, stepConfig.JiraUsername,
 		stepConfig.JiraTokenString(), stepConfig.JiraFieldID,
