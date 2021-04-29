@@ -3,6 +3,7 @@ package service
 import (
 	"fmt"
 	"log"
+	"strings"
 	"regexp"
 
 	logger "github.com/bitrise-io/go-utils/log"
