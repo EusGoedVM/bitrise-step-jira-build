@@ -73,7 +73,7 @@ func main() {
 	}
 
 	// scan repo for related issue keys
-		logger.Infof("Scanning git repo for JIRA issues (%d anchor[s])\n", len(hashes))
+		logger.Infof("Scanning git repo for JIRA issues (%d anchor[s]/ %s)\n", len(hashes), hashes[0])
 		gitWorker, err := service.GitOpen(
 			stepConfig.SourceDir, stepConfig.Branch,
 			stepConfig.JiraIssuePattern, hashes,
